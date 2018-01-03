@@ -1,0 +1,8 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/dashboard.js render dashboard 1`] = `
+<div>
+  <Connect(ExpenseListFiltersClass) />
+  <Connect(ExpenseListClass) />
+</div>
+`;

@@ -1,0 +1,43 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`containers/ExpensesListItem.js render 1`] = `
+<div>
+  <Link
+    replace={false}
+    to="/edit/1"
+  >
+    <h3>
+      Gum
+    </h3>
+    <p>
+      195
+       - 
+      0
+    </p>
+  </Link>
+  <button
+    onClick={[Function]}
+  >
+    Remove
+  </button>
+</div>
+`;
+
+exports[`containers/ExpensesListItem.js render empty 1`] = `
+<div>
+  <Link
+    replace={false}
+    to="/edit/undefined"
+  >
+    <h3 />
+    <p>
+       - 
+    </p>
+  </Link>
+  <button
+    onClick={[Function]}
+  >
+    Remove
+  </button>
+</div>
+`;
