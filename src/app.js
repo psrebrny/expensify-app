@@ -7,9 +7,9 @@ import 'react-dates/lib/css/_datepicker.css';
 import './styles/styles.scss';
 import configureStore from './store/configureStore';
 
+const store = configureStore();
+
 const App = () => {
-  
-  const store = configureStore();
   
   return (
       <Provider store={store}>
