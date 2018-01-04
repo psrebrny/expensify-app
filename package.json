@@ -6,7 +6,8 @@
     "license": "MIT",
     "scripts": {
         "serve": "webpack-dev-server",
-        "build": "webpack",
+        "build:dev": "webpack",
+        "build:prod": "webpack -p --env production",
         "test": "jest --config=jest.config.json",
         "test-coverage": "yarn run test --coverage",
         "test-watch": "yarn run test --watchAll"
