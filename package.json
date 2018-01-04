@@ -10,7 +10,9 @@
         "build:prod": "webpack -p --env production",
         "test": "jest --config=jest.config.json",
         "test-coverage": "yarn run test --coverage",
-        "test-watch": "yarn run test --watchAll"
+        "test-watch": "yarn run test --watchAll",
+        "start": "node server/server.js",
+        "heroku-postbuild": "yarn run build:prod"
     },
     "dependencies": {
         "express": "^4.16.2",
