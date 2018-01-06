@@ -2,6 +2,7 @@
 
 exports[`components/dashboard.js render dashboard 1`] = `
 <div>
+  <Connect(ExpensesSummaryClass) />
   <Connect(ExpenseListFiltersClass) />
   <Connect(ExpenseListClass) />
 </div>

@@ -10,7 +10,7 @@ exports[`containers/ExpensesListItem.js render 1`] = `
       Gum
     </h3>
     <p>
-      $1.95
+      $195.00
        - 
       January 1st 1970
     </p>
