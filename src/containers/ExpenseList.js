@@ -17,7 +17,6 @@ const ExpenseListClass = (props) => {
           props.expenses.length === 0 ? (
               <p>No expenses</p>
           ) : (
-              
               getExpenses(props.expenses)
           )
         }

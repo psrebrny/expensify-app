@@ -25,7 +25,6 @@ describe('.addExpense', () => {
   
   test('.with data', (done) => {
     let mockExpense = Object.assign({}, expenses[1]);
-    const actions = store.getActions([0]);
     delete mockExpense.id;
     
     store.dispatch(addExpense(mockExpense)).then((res) => {
@@ -57,7 +56,6 @@ describe('.addExpense', () => {
       note: '',
       createdAt: 0
     };
-    const actions = store.getActions([1]);
     
     store.dispatch(addExpense(mockExpenseDefault)).then((res) => {
       const actions = store.getActions();
@@ -94,12 +92,20 @@ test('get expenses', (done) => {
 });
 
 
-test('.removeExpense', () => {
-  expect(removeExpense(expenses[1].id)).toEqual({
-    type: 'REMOVE_EXPENSE',
-    payload: {
-      id: expenses[1].id
-    }
+test('.removeExpense', (done) => {
+  const store = createMockStore({});
+  store.dispatch(removeExpense(expenses[1].id)).then(() => {
+    const actions = store.getActions();
+    expect(actions[0]).toEqual({
+      type: 'REMOVE_EXPENSE',
+      payload: {id: expenses[1].id}
+    });
+    
+    return database.ref(`expenses/${expenses[1].id}`).once('value');
+    
+  }).then((snapshot) => {
+    expect(snapshot.val()).toBeFalsy();
+    done();
   });
 });
 

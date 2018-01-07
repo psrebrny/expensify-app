@@ -15,10 +15,16 @@ export const addExpense = (expenseData = {}) => {
 };
 
 export const removeExpense = (id = '') => {
-  return {
-    type: 'REMOVE_EXPENSE',
-    payload: {id}
+  return (dispatch) => {
+    return database.ref(`expenses/${id}`).remove().then(() => {
+      return dispatch({
+        type: 'REMOVE_EXPENSE',
+        payload: {id}
+      });
+    });
+    
   };
+  
 };
 
 export const editExpense = (id, updates) => ({
@@ -30,14 +36,13 @@ export const getExpenses = () => {
   return (dispatch) => {
     return database.ref('expenses').once('value').then((snapshot) => {
       const expenses = [];
-      
+      console.log(snapshot.val());
       snapshot.forEach((childSnapShot) => {
         expenses.push({
           ...childSnapShot.val(),
           id: childSnapShot.key
         });
       });
-      
       
       return dispatch({
         type: 'GET_EXPENSES',
