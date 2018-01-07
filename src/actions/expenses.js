@@ -27,16 +27,22 @@ export const removeExpense = (id = '') => {
   
 };
 
-export const editExpense = (id, updates) => ({
-  type: 'EDIT_EXPENSE',
-  payload: {id, updates}
-});
+export const editExpense = (id, updates) => {
+  return (dispatch) => {
+    return database.ref(`expenses/${id}`).update(updates).then(() => {
+      return dispatch({
+        type: 'EDIT_EXPENSE',
+        payload: {id, updates}
+      });
+    });
+    
+  };
+};
 
 export const getExpenses = () => {
   return (dispatch) => {
     return database.ref('expenses').once('value').then((snapshot) => {
       const expenses = [];
-      console.log(snapshot.val());
       snapshot.forEach((childSnapShot) => {
         expenses.push({
           ...childSnapShot.val(),

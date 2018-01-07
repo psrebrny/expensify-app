@@ -109,14 +109,25 @@ test('.removeExpense', (done) => {
   });
 });
 
-test('.editExpense', () => {
-  expect(editExpense(expenses[0].id, expenses[0])).toEqual({
-    type: 'EDIT_EXPENSE',
-    payload: {
-      id: expenses[0].id,
-      updates: expenses[0]
-    }
+test('.editExpense', (done) => {
+  const store = createMockStore({});
+  store.dispatch(editExpense(expenses[2].id, expenses[1])).then(() => {
+    const actions = store.getActions();
+    expect(actions[0]).toEqual({
+      type: 'EDIT_EXPENSE',
+      payload: {
+        id: expenses[2].id,
+        updates: expenses[1]
+      }
+    });
+    
+    return database.ref(`expenses/${expenses[2].id}`).once('value');
+    
+  }).then((snapshot) => {
+    expect(snapshot.val()).toEqual(expenses[1]);
+    done();
   });
+  
 });
 
 
