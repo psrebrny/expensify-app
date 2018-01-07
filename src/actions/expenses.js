@@ -6,8 +6,8 @@ export const addExpense = (expenseData = {}) => {
       return dispatch({
         type: 'ADD_EXPENSE',
         payload: {
-          id: ref.key,
-          ...expenseData
+          ...expenseData,
+          id: ref.key
         }
       });
     });
@@ -25,3 +25,24 @@ export const editExpense = (id, updates) => ({
   type: 'EDIT_EXPENSE',
   payload: {id, updates}
 });
+
+export const getExpenses = () => {
+  return (dispatch) => {
+    return database.ref('expenses').once('value').then((snapshot) => {
+      const expenses = [];
+      
+      snapshot.forEach((childSnapShot) => {
+        expenses.push({
+          ...childSnapShot.val(),
+          id: childSnapShot.key
+        });
+      });
+      
+      
+      return dispatch({
+        type: 'GET_EXPENSES',
+        payload: expenses
+      });
+    });
+  };
+};

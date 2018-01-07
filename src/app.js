@@ -18,7 +18,6 @@ const App = () => {
       </Provider>
   );
   
-  
 };
 
 ReactDOM.render(<App/>, document.querySelector('#root'));

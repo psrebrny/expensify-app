@@ -22,7 +22,7 @@ export default (state = expensesReducerDefaultState, action) => {
           return expense;
         }
       });
-    case 'SET_EXPENSES':
+    case 'GET_EXPENSES':
       return action.payload;
     default:
       return state;

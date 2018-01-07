@@ -1,4 +1,4 @@
-import { addExpense, editExpense, removeExpense } from './expenses';
+import { addExpense, editExpense, removeExpense, getExpenses } from './expenses';
 import expenses from '../test/expensesMock';
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
@@ -6,9 +6,22 @@ import database from '../firebase/firebase';
 
 const createMockStore = configureMockStore([thunk]);
 
+beforeEach((done) => {
+  const expensesData = {};
+  expenses.forEach((expense) => {
+    expensesData[expense.id] = {
+      description: expense.description,
+      note: expense.note,
+      amount: expense.amount,
+      createdAt: expense.createdAt
+    };
+  });
+  
+  database.ref('expenses').set(expensesData).then(() => done());
+});
+
 describe('.addExpense', () => {
   const store = createMockStore({});
-  
   
   test('.with data', (done) => {
     let mockExpense = Object.assign({}, expenses[1]);
@@ -66,6 +79,18 @@ describe('.addExpense', () => {
   });
   
   
+});
+
+test('get expenses', (done) => {
+  const store = createMockStore({});
+  store.dispatch(getExpenses()).then((res) => {
+    const actions = store.getActions();
+    expect(actions[0]).toEqual({
+      type: 'GET_EXPENSES',
+      payload: expenses
+    });
+    done();
+  });
 });
 
 
