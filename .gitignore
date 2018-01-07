@@ -7,3 +7,5 @@ gen
 dist/
 node_modules/
 coverage/
+.env.test
+.env.development
