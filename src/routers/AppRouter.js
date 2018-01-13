@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import { Router, Route, Switch } from 'react-router-dom';
-import { Header } from '../components/Header';
+import { Router, Route, Switch, Link } from 'react-router-dom';
 import { AddExpensePage } from '../containers/AddExpensePage';
 import { EditExpensePage } from '../containers/EditExpensePage';
 import { HelpPage } from '../components/HelpPage';
@@ -10,26 +9,49 @@ import createBrowserHistory from 'history/createBrowserHistory';
 import { bindActionCreators } from 'redux';
 import { getExpenses } from '../actions/expenses';
 import { connect } from 'react-redux';
+import { LoginPage } from '../containers/LoginPage';
+import { firebase } from '../firebase/firebase';
+import { setStateOnLogin, setStateOnLogout } from '../actions/auth';
+import PrivateRoute from './PrivateRoute';
+import PublicRoute from './PublicRoute';
 
-const history = createBrowserHistory();
+export const history = createBrowserHistory();
 
 class AppRouterClass extends Component {
   
   constructor(props) {
     super(...arguments);
-    props.getExpenses();
+    
+    firebase.auth().onAuthStateChanged((user) => {
+      if (user) {
+        this.props.setStateOnLogin({uid: user.uid});
+        
+        props.getExpenses();
+        if (history.location.pathname === '/') {
+          history.push('/dashboard');
+        }
+        
+      } else {
+        this.props.setStateOnLogout();
+        history.push('/');
+      }
+      
+    });
+    
+    
   }
   
   render() {
     return (
         <Router history={history}>
           <div>
-            <Header/>
+            <Link to="/help">Help</Link>
             <Switch>
-              <Route path="/create" component={AddExpensePage}/>
-              <Route path='/edit/:id' component={EditExpensePage}/>
+              <PrivateRoute path="/create" component={AddExpensePage}/>
+              <PrivateRoute path='/edit/:id' component={EditExpensePage}/>
+              <PrivateRoute path='/dashboard' component={ExpenseDashboardPage}/>
               <Route path='/help' component={HelpPage}/>
-              <Route exact path="/" component={ExpenseDashboardPage}/>
+              <PublicRoute exact path="/" component={LoginPage}/>
               <Route component={NotFoundPage}/>
             </Switch>
           </div>
@@ -38,13 +60,20 @@ class AppRouterClass extends Component {
     );
   }
   
-  
-};
+}
 
 const mapDispatchToProps = (dispatch) => {
   return bindActionCreators({
     getExpenses,
+    setStateOnLogin,
+    setStateOnLogout
   }, dispatch);
 };
 
-export const AppRouter = connect(null, mapDispatchToProps)(AppRouterClass);
+const mapStateToProps = (state) => {
+  return {
+    auth: state.auth
+  };
+};
+
+export const AppRouter = connect(mapStateToProps, mapDispatchToProps)(AppRouterClass);
