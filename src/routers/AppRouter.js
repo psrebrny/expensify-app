@@ -45,7 +45,6 @@ class AppRouterClass extends Component {
     return (
         <Router history={history}>
           <div>
-            <Link to="/help">Help</Link>
             <Switch>
               <PrivateRoute path="/create" component={AddExpensePage}/>
               <PrivateRoute path='/edit/:id' component={EditExpensePage}/>
