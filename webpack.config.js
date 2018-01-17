@@ -2,6 +2,7 @@ let webpack = require('webpack');
 let path = require('path');
 let HtmlWebpackPlugin = require('html-webpack-plugin');
 let ExtractTextPlugin = require('extract-text-webpack-plugin');
+let CopyWebpackPlugin = require('copy-webpack-plugin');
 
 process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 const isProduction = process.env.NODE_ENV === 'production';
@@ -13,7 +14,7 @@ if (process.env.NODE_ENV === 'test') {
 }
 
 module.exports = {
-  entry: './src/app.js',
+  entry: ['babel-polyfill', './src/app.js'],
   output: {
     path: path.join(__dirname, 'dist'),
     filename: 'bundle.js',
@@ -52,6 +53,15 @@ module.exports = {
             }
           ],
         })
+      }, {
+        test: /\.(gif)$/,
+        use: {
+          loader: 'file-loader',
+          options: {
+            name: '[hash][name].[ext]',
+            outputPath: 'images/'
+          }
+        }
       }
     ],
     
@@ -69,6 +79,12 @@ module.exports = {
       'process.env.FIREBASE_PROJECT_ID': JSON.stringify(process.env.FIREBASE_PROJECT_ID),
       'process.env.FIREBASE_STORAGE_BUCKET': JSON.stringify(process.env.FIREBASE_STORAGE_BUCKET),
       'process.env.FIREBASE_MESSAGING_SENDER_ID': JSON.stringify(process.env.FIREBASE_MESSAGING_SENDER_ID)
-    })
+    }),
+    new CopyWebpackPlugin([
+      {
+        from: path.resolve(__dirname, 'src/assets/images'),
+        to: 'assets/images'
+      }
+    ]),
   ]
 };

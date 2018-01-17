@@ -1,0 +1,70 @@
+.list {
+	&-header {
+		background: $off-white;
+		border: 1px solid darken($off-white, 7%);
+		color: $grey;
+		display: flex;
+		justify-content: space-between;
+		padding: $s-size $m-size;
+	}
+
+	&-body {
+		margin-bottom: $m-size;
+		@media (min-width: $desktop-breakpoint) {
+			margin-bottom: $l-size;
+		}
+	}
+
+	&-item {
+		display: flex;
+		flex-direction: column;
+		border: 1px solid darken($off-white, 7%);
+		border-top: none;
+		color: $dark-grey;
+		padding: $s-size $m-size;
+		text-decoration: none;
+		transition: background .3s ease;
+		&:hover {
+			background: $off-white;
+		}
+
+		@media (min-width: $desktop-breakpoint) {
+			flex-direction: row;
+			justify-content: space-between;
+			padding: $m-size;
+			align-items: center;
+		}
+
+		&__right-align {
+			text-align: right;
+		}
+
+		&__title {
+			margin: 0;
+			word-break: break-all;
+		}
+
+		&__sub-title {
+			color: $grey;
+			font-size: $font-size-small;
+		}
+
+		&__data {
+			margin: $m-size 0 0 0;
+			@media (min-width: $desktop-breakpoint) {
+				margin: 0 0 $m-size;
+				padding-left: $s-size;
+			}
+		}
+
+		&--message {
+			align-items: center;
+			justify-content: center;
+			color: $grey;
+			padding: $m-size;
+			&:hover {
+				background: none;
+			}
+		}
+	}
+}

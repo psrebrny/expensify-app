@@ -8,29 +8,32 @@ class EditExpensePageClass extends Component {
   
   constructor(props) {
     super(...arguments);
-    if (!props.expense) {
-      props.history.push('/');
-    }
   }
   
   render() {
     
     return (
         <div>
-          <h1>Edit Expense</h1>
-          <ExpenseForm
-              expense={this.props.expense}
-              onSubmit={(expense) => {
-                this.props.editExpense(this.props.expense.id, expense);
+          <div className="page-header">
+            <div className="content-container">
+              <h1 className="page-header__title">Edit Expense</h1>
+            </div>
+          </div>
+          <div className="content-container">
+            <ExpenseForm
+                expense={this.props.expense}
+                onSubmit={(expense) => {
+                  this.props.editExpense(this.props.expense.id, expense);
+                  this.props.history.push('/');
+                }}/>
+            <button className="button button--secondary" onClick={
+              () => {
+                this.props.removeExpense(this.props.expense.id);
                 this.props.history.push('/');
-              }}/>
-          <button onClick={
-            () => {
-              this.props.removeExpense(this.props.expense.id);
-              this.props.history.push('/');
-            }}
-          >Remove
-          </button>
+              }}
+            >Remove Expense
+            </button>
+          </div>
         </div>
     );
   }

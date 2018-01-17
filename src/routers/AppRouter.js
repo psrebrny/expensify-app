@@ -14,6 +14,7 @@ import { firebase } from '../firebase/firebase';
 import { setStateOnLogin, setStateOnLogout } from '../actions/auth';
 import PrivateRoute from './PrivateRoute';
 import PublicRoute from './PublicRoute';
+import { LoadingPage } from '../components/Loading';
 
 export const history = createBrowserHistory();
 
@@ -21,18 +22,22 @@ class AppRouterClass extends Component {
   
   constructor(props) {
     super(...arguments);
+    this.state = {
+      isLoading: true
+    };
     
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
         this.props.setStateOnLogin({uid: user.uid});
-        
         props.getExpenses();
         if (history.location.pathname === '/') {
           history.push('/dashboard');
         }
+        this.setState({isLoading: false});
         
       } else {
         this.props.setStateOnLogout();
+        this.setState({isLoading: false});
         history.push('/');
       }
       
@@ -44,16 +49,23 @@ class AppRouterClass extends Component {
   render() {
     return (
         <Router history={history}>
-          <div>
-            <Switch>
-              <PrivateRoute path="/create" component={AddExpensePage}/>
-              <PrivateRoute path='/edit/:id' component={EditExpensePage}/>
-              <PrivateRoute path='/dashboard' component={ExpenseDashboardPage}/>
-              <Route path='/help' component={HelpPage}/>
-              <PublicRoute exact path="/" component={LoginPage}/>
-              <Route component={NotFoundPage}/>
-            </Switch>
-          </div>
+          {!this.state.isLoading ? (
+              <div>
+                <Switch>
+                  <PrivateRoute path="/create" component={AddExpensePage}/>
+                  <PrivateRoute path='/edit/:id' component={EditExpensePage}/>
+                  <PrivateRoute path='/dashboard' component={ExpenseDashboardPage}/>
+                  <Route path='/help' component={HelpPage}/>
+                  <PublicRoute exact path="/" component={LoginPage}/>
+                  <Route component={NotFoundPage}/>
+                </Switch>
+              </div>
+          ) : (
+              <LoadingPage/>
+          )
+          
+          }
+        
         
         </Router>
     );
@@ -71,7 +83,8 @@ const mapDispatchToProps = (dispatch) => {
 
 const mapStateToProps = (state) => {
   return {
-    auth: state.auth
+    auth: state.auth,
+    expenses: state.expenses
   };
 };
 

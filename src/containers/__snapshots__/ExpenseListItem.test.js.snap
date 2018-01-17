@@ -1,45 +1,71 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`containers/ExpensesListItem.js render 1`] = `
-<div>
-  <Link
-    replace={false}
-    to="/edit/1"
-  >
-    <h3>
+<Link
+  className="list-item"
+  replace={false}
+  to="/edit/1"
+>
+  <div>
+    <h3
+      className="list-item__title"
+    >
       Gum
     </h3>
-    <p>
-      $195.00
-       - 
+    <span
+      className="list-item__sub-title"
+    >
       January 1st 1970
-    </p>
-  </Link>
-  <button
-    onClick={[Function]}
+    </span>
+  </div>
+  <div
+    className="list-item__right-align"
   >
-    Remove
-  </button>
-</div>
+    <h3
+      className="list-item__data"
+    >
+      $195.00
+    </h3>
+    <button
+      className="button button--secondary"
+      onClick={[Function]}
+    >
+      Remove
+    </button>
+  </div>
+</Link>
 `;
 
 exports[`containers/ExpensesListItem.js render empty 1`] = `
-<div>
-  <Link
-    replace={false}
-    to="/edit/undefined"
-  >
-    <h3 />
-    <p>
-      $0.00
-       - 
+<Link
+  className="list-item"
+  replace={false}
+  to="/edit/undefined"
+>
+  <div>
+    <h3
+      className="list-item__title"
+    />
+    <span
+      className="list-item__sub-title"
+    >
       January 1st 1970
-    </p>
-  </Link>
-  <button
-    onClick={[Function]}
+    </span>
+  </div>
+  <div
+    className="list-item__right-align"
   >
-    Remove
-  </button>
-</div>
+    <h3
+      className="list-item__data"
+    >
+      $0.00
+    </h3>
+    <button
+      className="button button--secondary"
+      onClick={[Function]}
+    >
+      Remove
+    </button>
+  </div>
+</Link>
 `;
