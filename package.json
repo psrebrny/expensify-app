@@ -8,7 +8,7 @@
         "clean": "rimraf dist",
         "serve": "webpack-dev-server",
         "build:dev": "yarn run clean && webpack",
-        "build:prod": "yarn run clean && FIREBASE_API_KEY=AIzaSyCiTSXP2TlT1tdMQ1LdJWIznAzZtca1r0I FIREBASE_AUTH_DOMAIN=expensify-415c8.firebaseapp.com FIREBASE_DABABASE_URL=https://expensify-415c8.firebaseio.com FIREBASE_PROJECT_ID=expensify-415c8 FIREBASE_STORAGE_BUCKET=expensify-415c8.appspot.com FIREBASE_MESSAGING_SENDER_ID=268184697224 NODE_ENV=production webpack -p",
+        "build:prod": "yarn run clean && NODE_ENV=production webpack -p",
         "test": "NODE_ENV=test jest --config=jest.config.json",
         "test-coverage": "yarn run test --coverage",
         "test-watch": "yarn run test --watchAll",
